@@ -42,8 +42,12 @@ server.use(jsonServer.bodyParser)
 //     })
 //   }
 
+
+// set port
+const PORT = process.env.PORT || 4000
 // Use default router
 server.use('/api',router)
-server.listen(4000, () => {
+// Start server
+server.listen(PORT, () => {
   console.log("TotoroMilkTea website's JSON Server is running")
 })
