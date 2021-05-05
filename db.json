@@ -23,9 +23,39 @@
     {
       "id": 4,
       "categoryName": "Nước ép"
+    },
+    {
+      "id": 5
+    },
+    {
+      "categoryName": "Nuoc trai cay",
+      "id": 6
     }
   ],
-  "products": [],
+  "products": [
+    {
+      "id": 1,
+      "name": "Trà sữa trân châu",
+      "price": 45000,
+      "categoryId": [
+        1,
+        2,
+        3
+      ],
+      "amount-sold": 2000
+    },
+    {
+      
+      "name": "Nước ép táo",
+      "price": 45000,
+      "categoryId": [
+        1,
+        2,
+        4
+      ],
+      "amount-sold": 3000
+    }
+  ],
   "users": [
     {
       "id": 0,
@@ -46,7 +76,7 @@
       "status": true
     },
     {
-      "id": 1,
+      "id": 2,
       "username": "teomap",
       "password": "12345678",
       "role": "user",
@@ -57,5 +87,18 @@
       "status": true
     }
   ],
-  "orders": []
+  "orders": [
+    {
+      "id": 1,
+      "codeBill": "1620242120655",
+      "userId": 1,
+      "productId": 1
+    },
+    {
+      "id": 2,
+      "codeBill": "1620242218279",
+      "userId": 1,
+      "productId": 2
+    }
+  ]
 }
