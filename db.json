@@ -1,0 +1,61 @@
+{
+  "ads": {
+    "datetime": "May 14 2021 00:00:00",
+    "image": "../../assets/images/advertisement/cup.jpg",
+    "text-standstill": "Khuyến mãi cực sốc <br /> Tặng cốc Totoro cho 5 khách hàng có hóa đơn cao nhất",
+    "text-run": "Khuyến mãi tưng bừng nhân dịp 30/4 và 1/5! Giảm giá cực sốc! Giảm tới 40% cho mỗi cốc trà sữa thơm ngon",
+    "discount": 40,
+    "status": true
+  },
+  "categories": [
+    {
+      "id": 1,
+      "categoryName": "Tất cả"
+    },
+    {
+      "id": 2,
+      "categoryName": "Bán chạy"
+    },
+    {
+      "id": 3,
+      "categoryName": "Trà sữa"
+    },
+    {
+      "id": 4,
+      "categoryName": "Nước ép"
+    }
+  ],
+  "products": [],
+  "users": [
+    {
+      "id": 0,
+      "username": "admin",
+      "password": "admin",
+      "role": "admin",
+      "email": "huy.nguyen22@student.passerellesnumeriques.org"
+    },
+    {
+      "id": 1,
+      "username": "huynguyen22",
+      "password": "12345678",
+      "role": "user",
+      "name": "Nguyễn Ngọc Huy",
+      "email": "huy.nguyen22@student.passerellesnumeriques.org",
+      "address": "101B - Lê Hữu Trác - Đà Nẵng",
+      "phone-number": "0355621838",
+      "status": true
+    },
+    {
+      "id": 1,
+      "username": "teomap",
+      "password": "12345678",
+      "role": "user",
+      "name": "Phạm Anh Tuấn",
+      "email": "tuan.pham22@student.passerellesnumeriques.org",
+      "address": "101B - Lê Hữu Trác - Đà Nẵng",
+      "phone-number": "098878787",
+      "status": true
+    }
+  ],
+  "orders": []
+}

@@ -1,0 +1,23 @@
+{
+  "name": "totoromilkteaapi",
+  "version": "1.0.0",
+  "description": "database for totoro_milk_tea website",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon main.js",
+    "start":"node main.js"
+  },
+  "keywords": [
+    "totoromilktea",
+    "json-server"
+  ],
+  "author": "Nguyen Ngoc Huy (Huy Nguyen)",
+  "license": "MIT",
+  "dependencies": {
+    "json-server": "^0.16.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
