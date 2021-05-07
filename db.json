@@ -2,8 +2,8 @@
   "ads": {
     "datetime": "May 14 2021 00:00:00",
     "image": "../../assets/images/advertisement/cup.jpg",
-    "text-standstill": "Khuyến mãi cực sốc <br /> Tặng cốc Totoro cho 5 khách hàng có hóa đơn cao nhất",
-    "text-run": "Khuyến mãi tưng bừng nhân dịp 30/4 và 1/5! Giảm giá cực sốc! Giảm tới 40% cho mỗi cốc trà sữa thơm ngon",
+    "textStandstill": "Khuyến mãi cực sốc <br /> Tặng cốc Totoro cho 5 khách hàng có hóa đơn cao nhất",
+    "textRun": "Khuyến mãi tưng bừng nhân dịp 30/4 và 1/5! Giảm giá cực sốc! Giảm tới 40% cho mỗi cốc trà sữa thơm ngon",
     "discount": 40,
     "status": true
   },
@@ -23,13 +23,6 @@
     {
       "id": 4,
       "categoryName": "Nước ép"
-    },
-    {
-      "id": 5
-    },
-    {
-      "categoryName": "Nuoc trai cay",
-      "id": 6
     }
   ],
   "products": [
@@ -42,7 +35,7 @@
         2,
         3
       ],
-      "amount-sold": 2000
+      "amountSold": 2000
     },
     {
       
@@ -53,7 +46,7 @@
         2,
         4
       ],
-      "amount-sold": 3000
+      "amountSold": 3000
     }
   ],
   "users": [
@@ -72,7 +65,7 @@
       "name": "Nguyễn Ngọc Huy",
       "email": "huy.nguyen22@student.passerellesnumeriques.org",
       "address": "101B - Lê Hữu Trác - Đà Nẵng",
-      "phone-number": "0355621838",
+      "phonenumber": "0355621838",
       "status": true
     },
     {
@@ -83,7 +76,7 @@
       "name": "Phạm Anh Tuấn",
       "email": "tuan.pham22@student.passerellesnumeriques.org",
       "address": "101B - Lê Hữu Trác - Đà Nẵng",
-      "phone-number": "098878787",
+      "phonenumber": "098878787",
       "status": true
     }
   ],
