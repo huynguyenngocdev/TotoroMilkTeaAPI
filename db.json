@@ -1,6 +1,6 @@
 {
   "ads": {
-    "datetime": "May 14 2021 00:00:00",
+    "datetime": "2021-05-27T00:00",
     "image": "../../assets/images/advertisement/cup.jpg",
     "textStandstill": "Khuyến mãi cực sốc <br /> Tặng cốc Totoro cho 5 khách hàng có hóa đơn cao nhất",
     "textRun": "Khuyến mãi tưng bừng nhân dịp 30/4 và 1/5! Giảm giá cực sốc! Giảm tới 40% cho mỗi cốc trà sữa thơm ngon",
@@ -35,10 +35,11 @@
         2,
         3
       ],
+      "image": "anh",
       "amountSold": 2000
     },
     {
-      
+      "id": 2,
       "name": "Nước ép táo",
       "price": 45000,
       "categoryId": [
@@ -46,6 +47,7 @@
         2,
         4
       ],
+      "image": "anh",
       "amountSold": 3000
     }
   ],
