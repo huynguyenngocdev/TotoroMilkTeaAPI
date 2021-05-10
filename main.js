@@ -17,49 +17,51 @@ server.use(jsonServer.bodyParser);
 
 server.use((req, res, next) => {
   if (req.method === "PUT" && req.path === "/api/ads") {
-    // require("fs").unlink(
-
-    // );
     const date = new Date();
     let updateAt = date.getTime();
 
     const data = req.body;
     const image = data["image"];
-    const fileType = image.match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/)[0].split("/")[1];
-    var endFile = "";
-    if (fileType == "jpeg") {
-      endFile = "jpg";
-    } else if (fileType == "png") {
-      endFile = "png";
+    // process to a image file if it is a new image
+    if (image.indexOf(".png") < 0 && image.indexOf(".jpg") < 0) {
+      const fileType = image
+        .match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/)[0]
+        .split("/")[1];
+      var endFile = "";
+      if (fileType == "jpeg") {
+        endFile = "jpg";
+      } else if (fileType == "png") {
+        endFile = "png";
+      }
+
+      const filename = date.getTime() + "." + endFile;
+      // create new image ads
+      require("fs").writeFile(
+        `image_ads/${filename}`,
+        image.split(",")[1],
+        "base64",
+        function (err) {
+          console.log(err);
+        }
+      );
+      // delete old image ads
+      let files = require("fs").readdirSync(`./image_ads`);
+
+      let file = files.filter((image) => {
+        return image.indexOf(`${data.updateAt}`) >= 0;
+      });
+
+      require("fs").unlink(`./image_ads/${file}`, function (err) {
+        if (err) throw err;
+      });
+
+      data.updateAt = updateAt;
+      // req.body["oldImage"] = req.body["oldImage"] =
+
+      data.image = `${host}/image_ads/${filename}`;
+      req.body = data;
     }
 
-    const filename = date.getTime() + "." + endFile;
-    // create new image ads
-    require("fs").writeFile(
-      `image_ads/${filename}`,
-      image.split(",")[1],
-      "base64",
-      function (err) {
-        console.log(err);
-      }
-    );
-    // delete old image ads
-    let files = require("fs").readdirSync(`./image_ads`);
-
-    let file = files.filter((image)=>{
-      return image.indexOf(`${data.updateAt}`) >= 0;
-    });
-
-    require("fs").unlink(`./image_ads/${file}`, function (err) {
-      if (err) throw err;
-    });
-
-    data.updateAt = updateAt
-    // req.body["oldImage"] = req.body["oldImage"] =  
-
-    data.image = `${host}/image_ads/${filename}`;
-
-    req.body = data;
     res.jsonp(req.body);
   }
 
