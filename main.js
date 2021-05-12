@@ -1,20 +1,99 @@
+const fs = require("fs");
 const jsonServer = require("json-server");
+const jwt = require("jsonwebtoken");
+
 const server = jsonServer.create();
 const router = jsonServer.router("db.json");
 const middlewares = jsonServer.defaults();
 const atob = require("atob");
-const { send } = require("process");
+const host = __dirname;
+const SECRET = "ngochuy";
 // Set default middlewares (logger, static, cors and no-cache)
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
-// Add custom routes before JSON Server router
+//get methods is public
 
-const host = __dirname;
+server.get("/api/products", (req, res) => {
+  let file = fs.readFileSync("db.json");
+  let rawdata = JSON.parse(file);
+  res.json(rawdata.products);
+});
+
+server.use((req, res, next) => {
+  if (req.method === "GET" && req.path.indexOf('/api/products/')>=0) {
+    let file = fs.readFileSync("db.json");
+    let rawdata = JSON.parse(file);
+    res.json(rawdata.products[req.path.split('/')[3]])
+  }else(
+    next()
+  )
+});
+
+server.get("/api/ads", (req, res) => {
+  let file = fs.readFileSync("db.json");
+  let rawdata = JSON.parse(file);
+  res.json(rawdata.ads);
+});
+
+server.get("/api/orders", (req, res) => {
+  let file = fs.readFileSync("db.json");
+  let rawdata = JSON.parse(file);
+  res.json(rawdata.products);
+});
+
+server.post("/api/auth", (req, res, next) => {
+  //admin account infor
+  const user = {
+    name: "Nguyen Ngoc Huy",
+    email: "huy.nguyen22@student.passerellesnumeriques.org",
+  };
+
+  if (req.body.username == "admin" && req.body.password == "admin") {
+    const token = jwt.sign(user, SECRET, {
+      algorithm: "HS256",
+      expiresIn: "3h",
+    });
+    res.json({ access_token: token });
+    next();
+  } else {
+    res.json("Đăng nhập thất bại");
+  }
+});
+
+server.use((req, res, next) => {
+  if (
+    req.method === "PUT" ||
+    req.method === "POST" ||
+    req.method === "DELETE"
+  ) {
+    //get auth header value
+    //check if bearer is undefined
+    if (
+      req.headers &&
+      req.headers.authorization &&
+      String(req.headers.authorization.split(" ")[0])
+    ) {
+      const token = req.headers.authorization.split(" ")[1];
+
+      jwt.verify(token, SECRET, (err, authData) => {
+        if (err) {
+          return res.status(403).send({ message: "Token invalid" });
+        } else {
+          return next();
+        }
+      });
+    } else {
+      return res.status(403).send({
+        message: "Unauthorized",
+      });
+    }
+  }
+});
+
 // 'http://totoromilkteaapi.herokuapp.com/';
 
-server.use(jsonServer.bodyParser);
-
+// put ads
 server.use((req, res, next) => {
   if (req.method === "PUT" && req.path === "/api/ads") {
     const date = new Date();
@@ -36,7 +115,7 @@ server.use((req, res, next) => {
 
       const filename = date.getTime() + "." + endFile;
       // create new image ads
-      require("fs").writeFile(
+      fs.writeFile(
         `image_ads/${filename}`,
         image.split(",")[1],
         "base64",
@@ -45,13 +124,123 @@ server.use((req, res, next) => {
         }
       );
       // delete old image ads
-      let files = require("fs").readdirSync(`./image_ads`);
+      let files = fs.readdirSync(`./image_ads`);
 
       let file = files.filter((image) => {
         return image.indexOf(`${data.updateAt}`) >= 0;
       });
 
-      require("fs").unlink(`./image_ads/${file}`, function (err) {
+      fs.unlink(`./image_ads/${file}`, function (err) {
+        if (err) throw err;
+      });
+
+      data.updateAt = updateAt;
+      // req.body["oldImage"] = req.body["oldImage"] =
+
+      data.image = `${host}/image_ads/${filename}`;
+      req.body = data;
+    }
+
+    res.jsonp(req.body);
+  }
+
+  // Continue to JSON Server router
+  next();
+});
+
+// put product
+server.use((req, res, next) => {
+  if (req.method === "PUT" && req.path === `/api/products/${req.body.id}`) {
+    const date = new Date();
+    let updateAt = date.getTime();
+
+    const data = req.body;
+    const image = data["image"];
+    // process to a image file if it is a new image
+    if (image.indexOf(".png") < 0 && image.indexOf(".jpg") < 0) {
+      const fileType = image
+        .match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/)[0]
+        .split("/")[1];
+      var endFile = "";
+      if (fileType == "jpeg") {
+        endFile = "jpg";
+      } else if (fileType == "png") {
+        endFile = "png";
+      }
+
+      const filename = date.getTime() + "." + endFile;
+      // create new image ads
+      fs.writeFile(
+        `image_ads/${filename}`,
+        image.split(",")[1],
+        "base64",
+        function (err) {
+          console.log(err);
+        }
+      );
+      // delete old image ads
+      let files = fs.readdirSync(`./image_ads`);
+
+      let file = files.filter((image) => {
+        return image.indexOf(`${data.updateAt}`) >= 0;
+      });
+
+      fs.unlink(`./image_ads/${file}`, function (err) {
+        if (err) throw err;
+      });
+
+      data.updateAt = updateAt;
+      // req.body["oldImage"] = req.body["oldImage"] =
+
+      data.image = `${host}/image_ads/${filename}`;
+      req.body = data;
+    }
+
+    res.jsonp(req.body);
+  }
+
+  // Continue to JSON Server router
+  next();
+});
+
+// post product
+server.use((req, res, next) => {
+  if (req.method === "POST" && req.path === "/api/products") {
+    const date = new Date();
+    let updateAt = date.getTime();
+
+    const data = req.body;
+    const image = data["image"];
+    // process to a image file if it is a new image
+    if (image.indexOf(".png") < 0 && image.indexOf(".jpg") < 0) {
+      const fileType = image
+        .match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/)[0]
+        .split("/")[1];
+      var endFile = "";
+      if (fileType == "jpeg") {
+        endFile = "jpg";
+      } else if (fileType == "png") {
+        endFile = "png";
+      }
+
+      const filename = date.getTime() + "." + endFile;
+      // create new image ads
+      fs.writeFile(
+        `image_ads/${filename}`,
+        image.split(",")[1],
+        "base64",
+        function (err) {
+          console.log(err);
+        }
+      );
+      // delete old image ads
+      let files = fs.readdirSync(`./image_ads`);
+
+      let file = files.filter((image) => {
+        return image.indexOf(`${data.updateAt}`) >= 0;
+      });
+
+      fs.unlink(`./image_ads/${file}`, function (err) {
         if (err) throw err;
       });
 
