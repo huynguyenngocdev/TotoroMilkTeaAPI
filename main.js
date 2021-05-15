@@ -8,60 +8,81 @@ const middlewares = jsonServer.defaults();
 const atob = require("atob");
 const host = __dirname;
 const SECRET = "ngochuy";
+
+const db = require("./db.json");
+
 // Set default middlewares (logger, static, cors and no-cache)
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
-// server.post("/api/auth", (req, res, next) => {
-//   //admin account infor
-//   const user = {
-//     name: "Nguyen Ngoc Huy",
-//     email: "huy.nguyen22@student.passerellesnumeriques.org",
-//   };
+server.get("/api", (req, res) => {
+  res.send("Welcome to API of Totoro Milk Tea shop");
+});
 
-//   if (req.body.username == "admin" && req.body.password == "admin") {
-//     const token = jwt.sign(user, SECRET, {
-//       algorithm: "HS256",
-//       expiresIn: "3h",
-//     });
-//     res.json({ access_token: token });
-//     next();
-//   } else {
-//     res.json("Đăng nhập thất bại");
-//   }
-// });
+//authorization
+server.use("/api/auth", (req, res, next) => {
+  //admin account infor
+  const user = {
+    name: "Nguyen Ngoc Huy",
+    email: "huy.nguyen22@student.passerellesnumeriques.org",
+  };
 
-// server.use((req, res, next) => {
-//   if (
-//     req.method === "PUT" ||
-//     req.method === "POST" ||
-//     req.method === "DELETE"
-//   ) {
-//     //get auth header value
-//     //check if bearer is undefined
-//     if (
-//       req.headers &&
-//       req.headers.authorization &&
-//       String(req.headers.authorization.split(" ")[0])
-//     ) {
-//       const token = req.headers.authorization.split(" ")[1];
+  if (req.body.username == "admin" && req.body.password == "admin") {
+    const token = jwt.sign(user, SECRET, {
+      algorithm: "HS384",
+      expiresIn: "3h",
+    });
+    res.json({ access_token: token });
+    next();
+  } else {
+    res.json("Không thể truy cập");
+  }
+});
 
-//       jwt.verify(token, SECRET, (err, authData) => {
-//         if (err) {
-//           return res.status(403).send({ message: "Token invalid" });
-//         } else {
-//           return next();
-//         }
-//       });
-//     } else {
-//       return res.status(403).send({
-//         message: "Unauthorized",
-//       });
-//     }
-//   }
-// });
+//check authorization
+server.use((req, res, next) => {
+  //get auth header value
+  //check if bearer is undefined
+  if (
+    req.headers &&
+    req.headers.authorization &&
+    String(req.headers.authorization.split(" ")[0])
+  ) {
+    const token = req.headers.authorization.split(" ")[1];
 
-// 'http://totoromilkteaapi.herokuapp.com/';
+    jwt.verify(token, SECRET, (err, authData) => {
+      if (err) {
+        return res.status(403).send({ message: "Token invalid" });
+      } else {
+        return next();
+      }
+    });
+  } else {
+    return res.status(401).send({
+      message: "Unauthorized",
+    });
+  }
+});
+
+//get image ads
+server.get("/api/get_image/*", (req, res) => {
+  //get files list
+  const files = fs.readdirSync(`./${req.path.split("/")[3]}`);
+
+  //get file relative path of image
+  const filename = req.path.split("/")[3] + "/" + req.path.split("/")[4];
+
+  //find image and return a base64 string
+  if (files.findIndex((file) => file == filename.split("/")[1]) >= 0) {
+    fs.readFile(`./${filename}`, function (err, data) {
+      if (err) throw err; // Fail if the file can't be read.
+      let stingBase64 = Buffer.from(data).toString("base64");
+      res.json({
+        image: `data:image/jpeg;base64,${stingBase64}`,
+      });
+    });
+  } else res.json({ image: "Not Found" });
+});
 
 // put ads
 server.use((req, res, next) => {
@@ -107,7 +128,7 @@ server.use((req, res, next) => {
       data.updateAt = updateAt;
       // req.body["oldImage"] = req.body["oldImage"] =
 
-      data.image = `${host}/image_ads/${filename}`;
+      data.image = `image_ads/${filename}`;
       req.body = data;
     }
 
