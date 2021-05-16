@@ -1,12 +1,12 @@
 {
   "ads": {
-    "datetime": "2021-05-12T20:17",
-    "image": "image_ads/1620664873800.jpg",
+    "datetime": "2021-05-17T12:17",
+    "image": "image_ads/1621155474660.jpg",
     "textStandstill": "Khuyến mãi cực sốc! Tặng cốc Totoro cho 5 khách hàng có hóa đơn cao nhất",
     "textRun": "Khuyến mãi tưng bừng nhân dịp 30/4 và 1/5! Giảm giá cực sốc! Giảm tới 40% cho mỗi cốc trà sữa thơm ngon!",
-    "discount": "40",
+    "discount": "20",
     "status": true,
-    "updateAt": 1620664873800
+    "updateAt": 1621155474660
   },
   "categories": [
     {
