@@ -20,7 +20,7 @@ server.get("/api", (req, res) => {
 });
 
 //authorization
-server.use("/api/auth", (req, res, next) => {
+server.post("/api/auth", (req, res) => {
   //admin account infor
   const user = {
     name: "Nguyen Ngoc Huy",
@@ -32,8 +32,7 @@ server.use("/api/auth", (req, res, next) => {
       algorithm: "HS384",
       expiresIn: "3h",
     });
-    res.json({ access_token: token });
-    next();
+    res.jsonp({ access_token: token });
   } else {
     res.json("Không thể truy cập");
   }
@@ -52,13 +51,13 @@ server.use((req, res, next) => {
 
     jwt.verify(token, SECRET, (err, authData) => {
       if (err) {
-        return res.status(403).send({ message: "Token invalid" });
+        return res.send({ message: "Token invalid" });
       } else {
         return next();
       }
     });
   } else {
-    return res.status(401).send({
+    return res.send({
       message: "Unauthorized",
     });
   }
@@ -77,7 +76,7 @@ server.get("/api/get_image/*", (req, res) => {
     fs.readFile(`./${filename}`, function (err, data) {
       if (err) throw err; // Fail if the file can't be read.
       let stingBase64 = Buffer.from(data).toString("base64");
-      res.json({
+      res.jsonp({
         image: `data:image/jpeg;base64,${stingBase64}`,
       });
     });
@@ -85,6 +84,102 @@ server.get("/api/get_image/*", (req, res) => {
 });
 
 // put ads
+server.use((req, res, next) => {
+  if (req.method === "PUT" && req.path.indexOf("/api/products") >= 0) {
+    const date = new Date();
+    let updateAt = date.getTime();
+
+    const data = req.body;
+    const image = data["image"];
+    // process to a image file if it is a new image
+    if (image.indexOf(".png") < 0 && image.indexOf(".jpg") < 0) {
+      const fileType = image
+        .match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/)[0]
+        .split("/")[1];
+      var endFile = "";
+      if (fileType == "jpeg") {
+        endFile = "jpg";
+      } else if (fileType == "png") {
+        endFile = "png";
+      }
+
+      const filename = date.getTime() + "." + endFile;
+      // create new image ads
+      fs.writeFile(
+        `image_ads/${filename}`,
+        image.split(",")[1],
+        "base64",
+        function (err) {
+          console.log(err);
+        }
+      );
+      // delete old image ads
+      let files = fs.readdirSync(`./image_ads`);
+
+      let file = files.filter((image) => {
+        return image.indexOf(`${data.updateAt}`) >= 0;
+      });
+
+      fs.unlink(`./image_ads/${file}`, function (err) {
+        if (err) throw err;
+      });
+
+      data.updateAt = updateAt;
+      // req.body["oldImage"] = req.body["oldImage"] =
+
+      data.image = `image_ads/${filename}`;
+      req.body = data;
+    }
+
+    res.jsonp(req.body);
+  }
+
+  // Continue to JSON Server router
+  next();
+});
+
+// post product
+server.use((req, res, next) => {
+  if (req.method === "POST" && req.path === "/api/products") {
+    const date = new Date();
+    let updateAt = date.getTime();
+
+    const data = req.body;
+    const image = data["image"];
+    // process to get extension of file
+    if (image.indexOf(".png") < 0 && image.indexOf(".jpg") < 0) {
+      const fileType = image
+        .match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/)[0]
+        .split("/")[1];
+      var endFile = "";
+      if (fileType == "jpeg") {
+        endFile = "jpg";
+      } else if (fileType == "png") {
+        endFile = "png";
+      }
+
+      const filename = date.getTime() + "." + endFile;
+      // create new image product
+      fs.writeFile(
+        `image_products/${filename}`,
+        image.split(",")[1],
+        "base64",
+        function (err) {
+          console.log(err);
+        }
+      );
+
+      data.updateAt = updateAt;
+
+      data.image = `image_products/${filename}`;
+      req.body = data;
+    }
+  }
+  // Continue to JSON Server router
+  next();
+});
+
+// put product
 server.use((req, res, next) => {
   if (req.method === "PUT" && req.path === "/api/ads") {
     const date = new Date();
@@ -139,134 +234,49 @@ server.use((req, res, next) => {
   next();
 });
 
-// put product
-// server.use((req, res, next) => {
-//   if (req.method === "PUT" && req.path === `/api/products/${req.body.id}`) {
-//     const date = new Date();
-//     let updateAt = date.getTime();
+// delete image product
+server.use((req, res, next) => {
+  if (req.path.indexOf("/api/delete_image/") >= 0) {
+    const data = req.body;
+    const image = data["image"];
+    // process to a image file if it is a new image
+    if (image.indexOf(".png") < 0 && image.indexOf(".jpg") < 0) {
+      const fileType = image
+        .match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/)[0]
+        .split("/")[1];
+      var endFile = "";
+      if (fileType == "jpeg") {
+        endFile = "jpg";
+      } else if (fileType == "png") {
+        endFile = "png";
+      }
 
-//     const data = req.body;
-//     const image = data["image"];
-//     // process to a image file if it is a new image
-//     if (image.indexOf(".png") < 0 && image.indexOf(".jpg") < 0) {
-//       const fileType = image
-//         .match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/)[0]
-//         .split("/")[1];
-//       var endFile = "";
-//       if (fileType == "jpeg") {
-//         endFile = "jpg";
-//       } else if (fileType == "png") {
-//         endFile = "png";
-//       }
+      const filename = date.getTime() + "." + endFile;
+      // create new image ads
+      fs.writeFile(
+        `image_ads/${filename}`,
+        image.split(",")[1],
+        "base64",
+        function (err) {
+          console.log(err);
+        }
+      );
+      // delete old image ads
+      let files = fs.readdirSync(`./image_products`);
 
-//       const filename = date.getTime() + "." + endFile;
-//       // create new image ads
-//       fs.writeFile(
-//         `image_ads/${filename}`,
-//         image.split(",")[1],
-//         "base64",
-//         function (err) {
-//           console.log(err);
-//         }
-//       );
-//       // delete old image ads
-//       let files = fs.readdirSync(`./image_ads`);
+      let file = files.filter((image) => {
+        return image.indexOf(`${data.updateAt}`) >= 0;
+      });
 
-//       let file = files.filter((image) => {
-//         return image.indexOf(`${data.updateAt}`) >= 0;
-//       });
+      fs.unlink(`./image_products/${file}`, function (err) {
+        if (err) throw err;
+      });
+    }
+  }
 
-//       fs.unlink(`./image_ads/${file}`, function (err) {
-//         if (err) throw err;
-//       });
-
-//       data.updateAt = updateAt;
-//       // req.body["oldImage"] = req.body["oldImage"] =
-
-//       data.image = `${host}/image_ads/${filename}`;
-//       req.body = data;
-//     }
-
-//     res.jsonp(req.body);
-//   }
-
-//   // Continue to JSON Server router
-//   next();
-// });
-
-// // post product
-// server.use((req, res, next) => {
-//   if (req.method === "POST" && req.path === "/api/products") {
-//     const date = new Date();
-//     let updateAt = date.getTime();
-
-//     const data = req.body;
-//     const image = data["image"];
-//     // process to a image file if it is a new image
-//     if (image.indexOf(".png") < 0 && image.indexOf(".jpg") < 0) {
-//       const fileType = image
-//         .match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/)[0]
-//         .split("/")[1];
-//       var endFile = "";
-//       if (fileType == "jpeg") {
-//         endFile = "jpg";
-//       } else if (fileType == "png") {
-//         endFile = "png";
-//       }
-
-//       const filename = date.getTime() + "." + endFile;
-//       // create new image ads
-//       fs.writeFile(
-//         `image_ads/${filename}`,
-//         image.split(",")[1],
-//         "base64",
-//         function (err) {
-//           console.log(err);
-//         }
-//       );
-//       // delete old image ads
-//       let files = fs.readdirSync(`./image_ads`);
-
-//       let file = files.filter((image) => {
-//         return image.indexOf(`${data.updateAt}`) >= 0;
-//       });
-
-//       fs.unlink(`./image_ads/${file}`, function (err) {
-//         if (err) throw err;
-//       });
-
-//       data.updateAt = updateAt;
-//       // req.body["oldImage"] = req.body["oldImage"] =
-
-//       data.image = `${host}/image_ads/${filename}`;
-//       req.body = data;
-//     }
-
-//     res.jsonp(req.body);
-//   }
-
-//   // Continue to JSON Server router
-//   next();
-// });
-
-// router.render = (req, res) => {
-//     const header = res.getHeaders()
-//     const totalCountHeader = header['x-total-count']
-//     if(req.method === 'GET' && totalCountHeader){
-//         const queryParams = queryString.parse(req._parsedUrl.query)
-//         const result={
-//             data: res.locals.data,
-//             pagination: {
-//                 _page: Number.parseInt(queryParams._page) || 1,
-//                 _limit: Number.parseInt(queryParams._limit) || 5,
-//                 _total: Number.parseInt(totalCountHeader)
-//             }
-//         }
-//     }
-//     res.jsonp({
-//       body: res.locals.data
-//     })
-//   }
+  // Continue to JSON Server router
+  next();
+});
 
 // set port
 const PORT = process.env.PORT || 4000;

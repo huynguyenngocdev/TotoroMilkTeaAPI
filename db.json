@@ -1,55 +1,104 @@
 {
   "ads": {
-    "datetime": "2021-05-17T12:17",
-    "image": "image_ads/1621155474660.jpg",
+    "datetime": "2021-05-18T13:17",
+    "image": "image_ads/1621315602204.jpg",
     "textStandstill": "Khuyến mãi cực sốc! Tặng cốc Totoro cho 5 khách hàng có hóa đơn cao nhất",
     "textRun": "Khuyến mãi tưng bừng nhân dịp 30/4 và 1/5! Giảm giá cực sốc! Giảm tới 40% cho mỗi cốc trà sữa thơm ngon!",
-    "discount": "20",
+    "discount": "10",
     "status": true,
-    "updateAt": 1621155474660
+    "updateAt": 1621315602204
   },
   "categories": [
     {
       "id": 1,
-      "categoryName": "Tất cả"
-    },
-    {
-      "id": 2,
-      "categoryName": "Bán chạy"
-    },
-    {
-      "id": 3,
       "categoryName": "Trà sữa"
     },
     {
-      "id": 4,
-      "categoryName": "Nước ép"
+      "id": 2,
+      "categoryName": "Nước ép, sinh tố"
     }
   ],
   "products": [
     {
-      "id": 1,
       "name": "Trà sữa trân châu",
       "price": 45000,
-      "categoryId": [
-        1,
-        2,
-        3
-      ],
-      "image": "anh",
-      "amountSold": 2000
+      "categoryId": 1,
+      "image": "image_products/1621284635019.jpg",
+      "updateAt": 1621284635019,
+      "amountSold": 2000,
+      "id": 1
     },
     {
-      "id": 2,
       "name": "Nước ép táo",
       "price": 45000,
-      "categoryId": [
-        1,
-        2,
-        4
-      ],
-      "image": "anh",
-      "amountSold": 3000
+      "categoryId": 2,
+      "image": "image_products/1621284688104.jpg",
+      "updateAt": 1621284688104,
+      "amountSold": 3000,
+      "id": 2
+    },
+    {
+      "name": "Trà hoa nhài",
+      "price": 40000,
+      "categoryId": 1,
+      "image": "image_products/1621284688106.jpg",
+      "amountSold": 3000,
+      "updateAt": 1621284688106,
+      "id": 3
+    },
+    {
+      "name": "Trà tắc",
+      "price": 35000,
+      "categoryId": 1,
+      "image": "image_products/1621286884232.jpg",
+      "amountSold": 3000,
+      "updateAt": 1621286884232,
+      "id": 4
+    },
+    {
+      "name": "Trà sữa truyền thống",
+      "price": 32000,
+      "categoryId": 1,
+      "image": "image_products/1621313836281.jpg",
+      "amountSold": 3000,
+      "updateAt": 1621313836281,
+      "id": 5
+    },
+    {
+      "name": "Nước trái cây",
+      "price": 450000,
+      "categoryId": 2,
+      "image": "image_products/1621314595277.jpg",
+      "amountSold": 3000,
+      "updateAt": 1621314595277,
+      "id": 6
+    },
+    {
+      "name": "Trà sữa chân châu đường đen",
+      "price": 36000,
+      "categoryId": 1,
+      "image": "image_products/1621314690153.jpg",
+      "amountSold": 3000,
+      "updateAt": 1621314690153,
+      "id": 7
+    },
+    {
+      "name": "Trà sữa truyền thống",
+      "price": 36000,
+      "categoryId": 1,
+      "image": "image_products/1621314737601.jpg",
+      "amountSold": 3000,
+      "updateAt": 1621314737601,
+      "id": 8
+    },
+    {
+      "name": "Trà sữa truyền thống",
+      "price": 10000,
+      "categoryId": 1,
+      "image": "image_products/1621314761004.jpg",
+      "amountSold": 3000,
+      "updateAt": 1621314761004,
+      "id": 9
     }
   ],
   "users": [
@@ -82,12 +131,6 @@
       "codeBill": "1620242120655",
       "userId": 1,
       "productId": 1
-    },
-    {
-      "id": 2,
-      "codeBill": "1620242218279",
-      "userId": 1,
-      "productId": 2
     }
   ]
 }
