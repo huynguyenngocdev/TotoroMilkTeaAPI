@@ -1,12 +1,12 @@
 {
   "ads": {
-    "datetime": "2021-05-18T13:17",
-    "image": "image_ads/1621315602204.jpg",
+    "datetime": "2021-05-28T13:17",
+    "image": "image_ads/1622020442538.jpg",
     "textStandstill": "Khuyến mãi cực sốc! Tặng cốc Totoro cho 5 khách hàng có hóa đơn cao nhất",
     "textRun": "Khuyến mãi tưng bừng nhân dịp 30/4 và 1/5! Giảm giá cực sốc! Giảm tới 40% cho mỗi cốc trà sữa thơm ngon!",
     "discount": "10",
     "status": true,
-    "updateAt": 1621315602204
+    "updateAt": 1622020442538
   },
   "categories": [
     {
@@ -20,85 +20,49 @@
   ],
   "products": [
     {
-      "name": "Trà sữa trân châu",
+      "id": 1,
+      "name": "Trà sữa trân châu đường đen",
       "price": 45000,
       "categoryId": 1,
-      "image": "image_products/1621284635019.jpg",
-      "updateAt": 1621284635019,
-      "amountSold": 2000,
-      "id": 1
+      "image": "image_products/1622194142292.jpg",
+      "updateAt": 1622194142292,
+      "amountSold": 2000
     },
     {
+      "id": 2,
       "name": "Nước ép táo",
       "price": 45000,
       "categoryId": 2,
-      "image": "image_products/1621284688104.jpg",
-      "updateAt": 1621284688104,
-      "amountSold": 3000,
-      "id": 2
-    },
-    {
-      "name": "Trà hoa nhài",
-      "price": 40000,
-      "categoryId": 1,
-      "image": "image_products/1621284688106.jpg",
-      "amountSold": 3000,
-      "updateAt": 1621284688106,
-      "id": 3
-    },
-    {
-      "name": "Trà tắc",
-      "price": 35000,
-      "categoryId": 1,
-      "image": "image_products/1621286884232.jpg",
-      "amountSold": 3000,
-      "updateAt": 1621286884232,
-      "id": 4
-    },
-    {
-      "name": "Trà sữa truyền thống",
-      "price": 32000,
-      "categoryId": 1,
-      "image": "image_products/1621313836281.jpg",
-      "amountSold": 3000,
-      "updateAt": 1621313836281,
-      "id": 5
+      "image": "image_products/1622194038173.jpg",
+      "updateAt": 1622194038173,
+      "amountSold": 3000
     },
     {
       "name": "Nước trái cây",
-      "price": 450000,
+      "price": 40000,
       "categoryId": 2,
-      "image": "image_products/1621314595277.jpg",
+      "image": "image_products/1622194084564.jpg",
       "amountSold": 3000,
-      "updateAt": 1621314595277,
-      "id": 6
-    },
-    {
-      "name": "Trà sữa chân châu đường đen",
-      "price": 36000,
-      "categoryId": 1,
-      "image": "image_products/1621314690153.jpg",
-      "amountSold": 3000,
-      "updateAt": 1621314690153,
-      "id": 7
+      "updateAt": 1622194084564,
+      "id": 3
     },
     {
       "name": "Trà sữa truyền thống",
-      "price": 36000,
+      "price": 40000,
       "categoryId": 1,
-      "image": "image_products/1621314737601.jpg",
+      "image": "image_products/1622194101234.jpg",
       "amountSold": 3000,
-      "updateAt": 1621314737601,
-      "id": 8
+      "updateAt": 1622194101234,
+      "id": 4
     },
     {
-      "name": "Trà sữa truyền thống",
-      "price": 10000,
-      "categoryId": 1,
-      "image": "image_products/1621314761004.jpg",
+      "name": "Trà hoa nhài",
+      "price": 45000,
+      "categoryId": 2,
+      "image": "image_products/1622194123188.jpg",
       "amountSold": 3000,
-      "updateAt": 1621314761004,
-      "id": 9
+      "updateAt": 1622194123188,
+      "id": 5
     }
   ],
   "users": [
@@ -127,10 +91,40 @@
   ],
   "orders": [
     {
-      "id": 1,
-      "codeBill": "1620242120655",
-      "userId": 1,
-      "productId": 1
+      "id": 1620242120655,
+      "customerName": "Nguyễn Ngọc Huy",
+      "productBought": [
+        "Trà sữa truyền thống",
+        "Nước ép táo"
+      ],
+      "quantity": [
+        2,
+        1
+      ],
+      "total": 120000,
+      "buyAt": "5/19/2021, 8:46:09 AM",
+      "status": 0
+    },
+    {
+      "id": 1620242120665,
+      "customerName": "Nguyễn Ngọc Huy",
+      "productBought": [
+        "Trà sữa truyền thống",
+        "Nước ép táo"
+      ],
+      "quantity": [
+        2,
+        1
+      ],
+      "total": 120000,
+      "buyAt": "5/19/2021, 8:46:09 AM",
+      "status": 0
     }
+  ],
+  "statusOrder": [
+    "Chờ xử lý",
+    "Đang giao",
+    "Hoàn thành",
+    "Đã bị hủy"
   ]
 }
