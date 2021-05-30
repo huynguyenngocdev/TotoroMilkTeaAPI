@@ -127,15 +127,12 @@ server.use((req, res, next) => {
       });
 
       data.updateAt = updateAt;
-      // req.body["oldImage"] = req.body["oldImage"] =
 
       data.image = `image_ads/${filename}`;
       req.body = data;
     }
-
     res.jsonp(req.body);
   }
-
   // Continue to JSON Server router
   next();
 });
